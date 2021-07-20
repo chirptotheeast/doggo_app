@@ -1,24 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import DogDropdown from './components/DogDropdown';
+import DogGallery from './components/DogGallery';
+import React, { useState, useEffect } from 'react';
+
+const BASE_URL = "https://dog.ceo/api/breeds/list/all"
 
 function App() {
+  const [dogList, setDogList] = useState('')
+  const [selectedDog, setSelectedDog] = useState('')
+
+  const selectedDogUpdate = (selectedDog) => {
+    setSelectedDog(selectedDog)
+  }
+
+
+ useEffect(() => {
+  fetch(BASE_URL)
+    .then(res => res.json())
+    .then(data => {
+      setDogList(data.message)
+    })
+ }, [])
+  
+ console.log(setDogList)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <div>
+    <DogDropdown dogList={dogList} breedSelected={selectedDogUpdate}/>
+    <DogGallery breedSelected={selectedDog}/>
+  </div>
   );
 }
 

@@ -6,7 +6,7 @@ export default function DogDropdown(props) {
 
   return (
     <div>
-      <select onChange={(e) => props.breedSelected(e.target)}>
+      <select onChange={(e) => props.breedSelected(e.target.value)}>
         {Object.keys(props.dogList).map((dog, index) => (
           <option key={index}>{dog}</option>
         ))}

@@ -1,23 +1,33 @@
-import React, { useEffect } from 'react'
-
-
-
+import React, { useEffect, useState } from "react";
 
 export default function DogGallery(props) {
+  //   console.log(props);
 
-    console.log(props)
-const DOG_IMAGE_URL = `https://dog.ceo/api/breed/${props.breedSelected}/images`;
+  const [dogImage, setdogImage] = useState([]);
 
-    useEffect(() => {
-        fetch(DOG_IMAGE_URL)
-          .then((res) => res.json)
-          .then((d) => d);
-    
-    })
-    
-    return (
-        <div>
-            {props.breedSelected}
-        </div>
-    )
-};
+  useEffect(() => {
+    if (props.breedSelected) {
+      fetch(`https://dog.ceo/api/breed/${props.breedSelected}/images`)
+        .then((res) => res.json())
+        .then((d) => setdogImage(d.message.slice(1, 3)));
+    }
+  }, [props.breedSelected]);
+
+  //   const fetchDogImage = (dogNow) => {
+  //     fetch(`https://dog.ceo/api/breed/${dogNow}/images`)
+  //       .then((res) => res.json())
+  //       .then((d) => console.log(d));
+  //   };
+
+  return (
+    <div>
+      {props.breedSelected}
+      <div>
+        Dog Image:{" "}
+        {dogImage.map((image, key) => (
+          <img src={image} key={key} />
+        ))}
+      </div>
+    </div>
+  );
+}
